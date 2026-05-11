@@ -729,7 +729,7 @@ function render() {
       <div class="question-row" id="row-${i}">
         <span class="question-num">${num}</span>
         <input type="text" id="inp-${i}" placeholder="${ph}" ${!word ? "disabled" : ""}
-               onkeydown="if(event.key==='Enter'){event.preventDefault();checkAll();}">
+               onkeydown="if(event.key==='Enter'){event.preventDefault();var next=document.getElementById('inp-'+(i+1));if(next&&!next.disabled){next.focus()}else{checkAll()}}">
         ${word ? `<button class="replay-btn" onclick="replayWord(${i})" title="重听此词">&#9654;</button>` : ""}
         <span class="feedback" id="fb-${i}"></span>
       </div>`;
