@@ -381,7 +381,7 @@
     .history-entry { padding: 12px 14px; overflow: hidden; }
     .history-entry .entry-header { flex-direction: column; gap: 4px; align-items: flex-start; }
     .history-entry .entry-header span { overflow-wrap: break-word; }
-    .history-entry .entry-score { font-size: 15px; flex-shrink: 0; }
+    .history-entry .entry-score { font-size: 15px; flex-shrink: 0; white-space: nowrap; }
     .history-entry .entry-detail { overflow-wrap: break-word; }
     .history-actions { gap: 6px; }
     .history-actions button { font-size: 11px; padding: 7px 12px; white-space: nowrap; }
@@ -914,9 +914,9 @@ function renderHistory() {
   const wrongPool = [...new Set(history.flatMap(e => e.wrong))];
 
   stats.innerHTML =
-    "共 <strong>" + totalAttempts + "</strong> 次练习 &nbsp;·&nbsp; " +
-    "累计正确率 <strong>" + overallPct + "%</strong> &nbsp;·&nbsp; " +
-    "错词池 <strong>" + wrongPool.length + "</strong> 个";
+    "<span style='white-space:nowrap'>共 <strong>" + totalAttempts + "</strong> 次练习</span> &nbsp;·&nbsp; " +
+    "<span style='white-space:nowrap'>累计正确率 <strong>" + overallPct + "%</strong></span> &nbsp;·&nbsp; " +
+    "<span style='white-space:nowrap'>错词池 <strong>" + wrongPool.length + "</strong> 个</span>";
 
   reviewBtn.style.display = wrongPool.length > 0 ? "" : "none";
   reviewBtn.textContent = "复习全部错词（" + wrongPool.length + " 个）";
