@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雅思听力 Part 4 · 听写自测</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+  :root {
+    --ink: #2c2416;
+    --ink-light: #6b5e4a;
+    --ink-muted: #9b8e7a;
+    --paper: #faf7f0;
+    --card: #fffef9;
+    --border: #e5ded0;
+    --border-focus: #c4b998;
+    --accent: #8b1a2b;
+    --accent-hover: #a01d30;
+    --navy: #1e3a4c;
+    --navy-light: #2d5568;
+    --gold: #b8944c;
+    --correct: #e8f0e4;
+    --correct-text: #3d6237;
+    --wrong: #f9ecec;
+    --wrong-text: #9b3a3a;
+    --input-bg: #fdfcf7;
+    --shadow: 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,150,100,.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 90%, rgba(140,160,180,.05) 0%, transparent 60%);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── header ── */
+  header {
+    background: transparent;
+    color: var(--ink);
+    padding: 56px 0 44px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  header h1 {
+    font-family: "Playfair Display", "Noto Serif SC", "Georgia", serif;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--ink);
+  }
+  header h1 em { font-style: italic; color: var(--accent); }
+  header .subtitle {
+    font-family: "Noto Serif SC", "Songti SC", serif;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+  header .rule {
+    width: 60px; height: 2px; background: var(--accent);
+    margin: 20px auto 0;
+  }
+
+  /* ── layout ── */
+  .container { max-width: 680px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* ── controls ── */
+  .controls {
+    display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+    justify-content: center; margin-bottom: 14px;
+  }
+  .controls label {
+    font-size: 13px; color: var(--ink-muted); white-space: nowrap;
+    font-family: "Noto Serif SC", serif; letter-spacing: .5px;
+  }
+  .controls select, .controls button {
+    font-size: 13px; padding: 9px 16px;
+    border: 1px solid var(--border); border-radius: 3px;
+    background: var(--card); cursor: pointer;
+    font-family: "Noto Serif SC", "PingFang SC", sans-serif;
+    color: var(--ink); transition: all .2s;
+  }
+  .controls select { min-width: 170px; }
+  .controls select:focus { outline: none; border-color: var(--border-focus); }
+  .controls button {
+    font-weight: 600; letter-spacing: .5px; border: none;
+    color: #fff; background: var(--ink);
+    padding: 9px 20px;
+  }
+  .controls button:hover { background: #3d3322; }
+  .controls button.secondary {
+    background: transparent; color: var(--ink); border: 1px solid var(--border);
+    font-weight: 500;
+  }
+  .controls button.secondary:hover { background: #f5f1e8; border-color: var(--border-focus); }
+  .controls button.dictation {
+    background: var(--accent); color: #fff; border: none;
+  }
+  .controls button.dictation:hover { background: var(--accent-hover); }
+  .controls button.dictation.running {
+    background: #c67a1a;
+  }
+  .controls select.speed-select { min-width: 90px; }
+
+  /* ── listening highlight ── */
+  .question-row.listening {
+    border-color: var(--gold); border-width: 1px;
+    box-shadow: 0 0 0 2px rgba(184,148,76,.15);
+    background: #fefdf8;
+  }
+  .question-row .replay-btn {
+    background: none; border: 1px solid var(--border); border-radius: 3px;
+    cursor: pointer; font-size: 14px; padding: 5px 9px; line-height: 1;
+    transition: all .2s; color: var(--ink-muted);
+  }
+  .question-row .replay-btn:hover { background: #f5f1e8; border-color: var(--border-focus); }
+
+  /* ── info bar ── */
+  .info-bar {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px; font-size: 13px; color: var(--ink-muted);
+    padding: 0 4px;
+  }
+  .info-bar .source-label {
+    font-family: "Playfair Display", "Georgia", serif;
+    font-style: italic; color: var(--ink-light); font-size: 14px;
+  }
+  .info-bar .scene-badge {
+    background: transparent; color: var(--accent);
+    padding: 2px 0; font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    border-bottom: 1px solid var(--accent);
+  }
+
+  /* ── legend ── */
+  .legend {
+    text-align: center; font-size: 12px; color: var(--ink-muted);
+    margin-bottom: 20px; letter-spacing: .5px;
+  }
+
+  /* ── dictation list ── */
+  .question-list { display: flex; flex-direction: column; gap: 8px; }
+  .question-row {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--card); padding: 12px 20px;
+    border: 1px solid var(--border);
+    transition: all .25s;
+  }
+  .question-row:first-child { border-radius: 4px 4px 0 0; }
+  .question-row:last-child { border-radius: 0 0 4px 4px; }
+  .question-row:only-child { border-radius: 4px; }
+  .question-row + .question-row { border-top: none; }
+  .question-row:first-child { border-radius: 4px 4px 0 0; }
+  .question-row:last-child { border-radius: 0 0 4px 4px; }
+  .question-row:only-child { border-radius: 4px; }
+
+  .question-row.correct { background: var(--correct); border-color: #c8d8c4; }
+  .question-row.wrong   { background: var(--wrong); border-color: #e0c8c8; }
+  .question-num {
+    font-family: "Playfair Display", "Georgia", serif;
+    font-weight: 500; font-size: 15px; min-width: 32px;
+    color: var(--ink-muted); flex-shrink: 0; text-align: center;
+    font-style: italic;
+  }
+  .question-row input {
+    flex: 1; font-size: 15px; padding: 10px 14px;
+    border: none; border-bottom: 1px solid var(--border);
+    background: transparent; font-family: "Georgia", "Noto Serif SC", serif;
+    transition: border-color .2s; text-align: center;
+    color: var(--ink); letter-spacing: .5px;
+    border-radius: 0;
+  }
+  .question-row input:focus {
+    outline: none; border-bottom-color: var(--ink);
+  }
+  .question-row input:disabled {
+    color: var(--ink-muted); border-bottom-style: dotted;
+  }
+  .question-row .feedback {
+    font-size: 12px; min-width: 100px; max-width: 170px;
+    line-height: 1.6; flex-shrink: 0; text-align: right;
+    font-family: "Noto Serif SC", serif;
+  }
+  .question-row .feedback .answer {
+    color: var(--wrong-text); font-weight: 600;
+  }
+  .question-row .feedback .correct-mark {
+    color: var(--correct-text); font-weight: 600;
+  }
+
+  /* ── submit button area ── */
+  .submit-area {
+    text-align: center; margin-top: 28px;
+  }
+  .submit-area button {
+    font-family: "Noto Serif SC", serif; font-size: 14px;
+    padding: 12px 48px; letter-spacing: 2px;
+    border: 1px solid var(--ink); background: transparent;
+    color: var(--ink); cursor: pointer; transition: all .25s;
+  }
+  .submit-area button:hover {
+    background: var(--ink); color: #fff;
+  }
+
+  /* ── score bar ── */
+  .score-bar {
+    display: flex; justify-content: center; align-items: baseline; gap: 40px;
+    margin-top: 28px; padding: 24px 20px;
+    background: var(--card); border: 1px solid var(--border);
+  }
+  .score-bar .score-wrapper {
+    text-align: center;
+  }
+  .score-bar .score {
+    font-family: "Playfair Display", "Georgia", serif;
+    font-size: 48px; font-weight: 500; color: var(--ink);
+    line-height: 1;
+  }
+  .score-bar .score-outof {
+    font-size: 18px; color: var(--ink-muted);
+  }
+  .score-bar .label {
+    font-size: 13px; color: var(--ink-muted);
+    font-family: "Noto Serif SC", serif; letter-spacing: 1px;
+  }
+  .score-bar .label span {
+    font-weight: 700; color: var(--ink); font-size: 18px;
+  }
+
+  /* ── new game ── */
+  .new-game-wrap { text-align: center; margin-top: 24px; }
+  .new-game-wrap button {
+    font-family: "Noto Serif SC", serif; font-size: 13px;
+    padding: 10px 32px; letter-spacing: 1px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--ink-muted); cursor: pointer; transition: all .2s;
+  }
+  .new-game-wrap button:hover {
+    border-color: var(--ink); color: var(--ink);
+  }
+
+  /* ── history ── */
+  .history-section {
+    margin-top: 56px; padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .history-toggle {
+    font-size: 13px; color: var(--ink-muted); cursor: pointer;
+    font-family: "Noto Serif SC", serif; letter-spacing: 1px;
+    transition: color .2s;
+    text-decoration: none; border-bottom: 1px dotted var(--border);
+    padding-bottom: 2px;
+  }
+  .history-toggle:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .history-panel { display: none; margin-top: 24px; }
+  .history-panel.open { display: block; }
+  .history-stats {
+    display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
+    padding: 18px 24px; background: var(--card); border: 1px solid var(--border);
+    margin-bottom: 20px; font-size: 13px; letter-spacing: .5px;
+  }
+  .history-stats strong { color: var(--accent); font-weight: 600; }
+  .history-entry {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 14px 20px; margin-bottom: 6px; font-size: 13px;
+    cursor: pointer; transition: all .2s;
+  }
+  .history-entry:hover { border-color: var(--border-focus); }
+  .history-entry .entry-header {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .history-entry .entry-score {
+    font-family: "Playfair Display", serif;
+    font-weight: 500; font-size: 17px;
+  }
+  .history-entry .entry-score.good { color: var(--correct-text); }
+  .history-entry .entry-score.bad { color: var(--wrong-text); }
+  .history-entry .entry-detail {
+    display: none; margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .history-entry.open .entry-detail { display: block; }
+  .wrong-tag {
+    display: inline-block; background: var(--wrong); color: var(--wrong-text);
+    padding: 3px 10px; border-radius: 2px; margin: 3px 5px; font-size: 12px;
+    cursor: pointer; transition: background .15s;
+  }
+  .wrong-tag:hover { background: #f0d8d8; }
+  .review-badge {
+    background: #faf5ea; color: #8b6914; padding: 3px 12px;
+    border-radius: 2px; font-size: 11px; font-weight: 600; margin-left: 8px;
+    letter-spacing: .5px;
+  }
+  .history-actions {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .history-actions button {
+    font-family: "Noto Serif SC", serif; font-size: 12px;
+    padding: 7px 16px; letter-spacing: .5px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--ink-muted); cursor: pointer; transition: all .2s;
+  }
+  .history-actions button:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ── responsive: tablet ── */
+  @media (max-width: 680px) {
+    .container { padding: 0 14px 60px; }
+    header { padding: 36px 16px 28px; }
+    header h1 { font-size: 28px; }
+    header .subtitle { font-size: 12px; }
+  }
+
+  /* ── responsive: phone ── */
+  @media (max-width: 480px) {
+    body { font-size: 14px; }
+
+    header { padding: 28px 12px 22px; margin-bottom: 28px; }
+    header h1 { font-size: 22px; letter-spacing: 1px; }
+    header .subtitle { font-size: 11px; }
+    header .rule { margin: 14px auto 0; }
+
+    .container { padding: 0 10px 48px; max-width: 100%; }
+
+    /* controls — stack everything, full width */
+    .controls {
+      flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
+    }
+    .controls label { font-size: 12px; }
+    .controls select { min-width: 0; flex: 1; font-size: 12px; padding: 8px 10px; }
+    .controls select.speed-select { min-width: 0; flex: 1; }
+    .controls button {
+      font-size: 12px; padding: 8px 14px; white-space: nowrap;
+    }
+
+    /* info bar */
+    .info-bar { flex-direction: column; gap: 4px; align-items: flex-start; }
+    .info-bar .source-label { font-size: 12px; }
+
+    /* question rows */
+    .question-list { gap: 6px; }
+    .question-row {
+      padding: 10px 10px; gap: 8px; align-items: center;
+    }
+    .question-num { font-size: 13px; min-width: 24px; }
+    .question-row input {
+      font-size: 14px; padding: 10px 8px; min-width: 0;
+    }
+    .question-row .replay-btn {
+      font-size: 12px; padding: 6px 8px; min-width: 36px; min-height: 36px;
+    }
+    .question-row .feedback {
+      min-width: 0; max-width: 90px; font-size: 10px; line-height: 1.4;
+    }
+
+    /* submit */
+    .submit-area { margin-top: 20px; }
+    .submit-area button { font-size: 13px; padding: 12px 36px; width: 100%; max-width: 280px; }
+
+    /* score */
+    .score-bar {
+      flex-direction: column; align-items: center; gap: 12px;
+      padding: 18px 14px; margin-top: 20px;
+    }
+    .score-bar .score { font-size: 40px; }
+
+    /* history */
+    .history-section { margin-top: 36px; padding-top: 28px; }
+    .history-stats { flex-direction: column; gap: 6px; padding: 14px 16px; font-size: 12px; overflow-wrap: break-word; }
+    .history-entry { padding: 12px 14px; overflow: hidden; }
+    .history-entry .entry-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+    .history-entry .entry-header span { overflow-wrap: break-word; }
+    .history-entry .entry-score { font-size: 15px; flex-shrink: 0; }
+    .history-entry .entry-detail { overflow-wrap: break-word; }
+    .history-actions { gap: 6px; }
+    .history-actions button { font-size: 11px; padding: 7px 12px; white-space: nowrap; }
+    .wrong-tag { margin: 2px 3px; }
+
+    /* legend */
+    .legend { font-size: 10px; margin-bottom: 14px; }
+
+    /* new game */
+    .new-game-wrap button { font-size: 12px; padding: 10px 24px; }
+  }
+
+  /* ── tiny phone ── */
+  @media (max-width: 360px) {
+    .question-row { padding: 8px 6px; gap: 4px; }
+    .question-num { font-size: 12px; min-width: 20px; }
+    .question-row input { font-size: 13px; padding: 8px 4px; }
+    .question-row .replay-btn { font-size: 10px; padding: 5px 6px; min-width: 28px; min-height: 28px; }
+    .question-row .feedback { max-width: 60px; font-size: 9px; }
+    .controls button { font-size: 11px; padding: 7px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The IELTS <em>Part Four</em> Dictation</h1>
+  <div class="subtitle">IELTS 听力 Part 4 · 听写自测 · 二〇二四 — 二〇二六</div>
+  <div class="subtitle" style="font-size:12px;margin-top:6px">机经答案词汇 · 源自考生回忆 · 仅供参考</div>
+  <div class="rule"></div>
+</header>
+
+<div class="container">
+
+  <!-- ── controls ── -->
+  <div class="controls">
+    <label for="scene-select">场景</label>
+    <select id="scene-select">
+      <option value="all">全部场景（随机抽题）</option>
+      <option value="随机10题">随机10题模式</option>
+    </select>
+    <button id="start-btn">换一批</button>
+    <label style="cursor:pointer;font-size:12px;color:var(--ink-muted);border:1px solid var(--border);padding:7px 12px;border-radius:3px;font-family:inherit;letter-spacing:.5px;transition:all .2s" onmouseenter="this.style.borderColor='var(--ink)'" onmouseleave="this.style.borderColor='var(--border)'">
+      导入<input type="file" id="import-file" accept=".csv" style="display:none" onchange="importCSV(event)">
+    </label>
+    <button onclick="exportCSV()" style="font-size:12px;padding:7px 12px;background:transparent;color:var(--ink-muted);border:1px solid var(--border);font-weight:400;letter-spacing:.5px" onmouseenter="this.style.borderColor='var(--ink)'" onmouseleave="this.style.borderColor='var(--border)'">导出</button>
+    <button id="reset-db-btn" onclick="resetDB()" style="display:none;font-size:12px;padding:7px 12px;background:transparent;color:var(--wrong-text);border:1px solid var(--border);font-weight:400;letter-spacing:.5px">重置</button>
+  </div>
+  <div class="controls">
+    <label for="speed-select">语速</label>
+    <select id="speed-select" class="speed-select">
+      <option value="0.8">慢</option>
+      <option value="1.0" selected>正常</option>
+      <option value="1.2">快</option>
+    </select>
+    <label for="gap-select">间隔</label>
+    <select id="gap-select" class="speed-select">
+      <option value="3.0">3 s</option>
+      <option value="5.0" selected>5 s</option>
+      <option value="7.0">7 s</option>
+    </select>
+    <label for="voice-select">语音</label>
+    <select id="voice-select" class="speed-select" style="min-width:120px" onchange="onVoiceChange()"></select>
+    <button onclick="testVoice()" style="font-size:12px;padding:7px 12px;background:transparent;border:1px solid var(--border);color:var(--ink-muted);cursor:pointer;font-family:inherit;border-radius:3px" title="试听当前语音">试听</button>
+    <button id="dictation-btn" class="dictation">开始听写</button>
+  </div>
+
+  <!-- ── info ── -->
+  <div class="info-bar">
+    <span class="source-label" id="source-info"></span>
+    <span class="scene-badge" id="scene-badge"></span>
+  </div>
+
+  <!-- ── legend ── -->
+  <div class="legend">
+    <span style="color:var(--correct-text)">●</span> 正确
+    <span style="color:var(--wrong-text);margin-left:10px">●</span> 错误
+    &nbsp;·&nbsp; 不区分大小写 &nbsp;·&nbsp; 单复数须一致
+  </div>
+
+  <!-- ── questions ── -->
+  <div class="question-list" id="question-list"></div>
+
+  <div class="submit-area">
+    <button id="check-btn">提交批改</button>
+  </div>
+
+  <!-- ── score ── -->
+  <div class="score-bar" id="score-bar" style="display:none">
+    <div class="score-wrapper">
+      <div><span class="score" id="score-num">0</span><span class="score-outof"> / 10</span></div>
+    </div>
+    <div class="label">正确率 <span id="score-pct">0%</span></div>
+  </div>
+
+  <div class="new-game-wrap" id="new-game-wrap" style="display:none">
+    <button onclick="startNew()">再来一批</button>
+  </div>
+
+  <!-- ── history ── -->
+  <div class="history-section">
+    <div style="text-align:center">
+      <span class="history-toggle" id="history-toggle" onclick="toggleHistory()">历史记录</span>
+    </div>
+    <div class="history-panel" id="history-panel">
+      <div class="history-stats" id="history-stats"></div>
+      <div class="history-actions">
+        <button id="review-btn" onclick="startReviewMode()">复习全部错词</button>
+        <button onclick="exportWrongWords()">导出错词 CSV</button>
+        <button onclick="clearHistory()">清空记录</button>
+      </div>
+      <div id="history-list"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;font-size:12px;color:var(--ink-muted);letter-spacing:.5px;line-height:2">
+    如有问题，请查阅使用手册或联系微信（longyao0321）
+  </div>
+</div>
+
+<script>
+// ═══════════════════ 43场考试数据 ═══════════════════
+
+const WORD_SETS = [
+  // 2024
+  { scene:"历史/文化/艺术", date:"2024.01.06", topic:"橡胶制品的历史", words:["coconut","mould","pressed","machinery","dried","traders","balls","elastic","tires","Germany"] },
+  { scene:"科技/工程",       date:"2024.02.03", topic:"气象科学的发展", words:["ants","headache","kite","cloud","balloon","storm","politician","coast","forecast","income"] },
+  { scene:"教育/社会",       date:"2024.02.24", topic:"新西兰学校教育和变革", words:["qualification","government","boys","small","meeting","business","university","reading","age","relationships"] },
+  { scene:"生物/动植物",     date:"2024.03.09", topic:"鱼类养殖", words:["escape","tuna","strong","coast","support","storm","shipping","cosmetics","young","hospitality"] },
+  { scene:"科技/工程",       date:"2024.03.16", topic:"伦敦地铁空调", words:["deep","population","newspaper","platforms","security","parks","fans","water","streets","tourism"] },
+  { scene:"生物/动植物",     date:"2024.03.23", topic:"植物行为", words:["passive","beaches","roots","light","signature","sugar","potatoes","chemicals","circle","equipment"] },
+  { scene:"科技/工程",       date:"2024.04.13", topic:"太空站和宇航员", words:["fresh","variety","communication","sleep","water","tools","instructions","testing","accent","safety"] },
+  { scene:"艺术/设计",       date:"2024.04.27", topic:"平面设计", words:["commercial","knowledge","lines","photography","advertise","foot","objects","newspapers","packaging","math"] },
+  { scene:"历史/文化/艺术",   date:"2024.05.18", topic:"儿童幽默研究", words:["jokes","groups","diary","nervous","chicken","person","adults","gender","pictures","danger"] },
+  { scene:"科技/工程",       date:"2024.05.25", topic:"报纸印刷", words:["jams","pump","months","railway","barcode","","","","",""], _special:"(31-35单选)" },
+  { scene:"健康/医学",       date:"2024.06.01", topic:"医院花园", words:["infection","wall","stress","heart","immune","interviews","fountain","furniture","birds","society"] },
+  { scene:"科技/工程",       date:"2024.08.24", topic:"纺织和商业研究", words:["engineering","textile","global","documentation","tutorials","commercial","reflective","design","journalism","interview"] },
+  { scene:"环境/能源",       date:"2024.08.31", topic:"生物能源", words:["soil","drought","erosion","corn","leaves","dioxide","candles","digestion","wildlife","warming"] },
+  { scene:"建筑/材料",       date:"2024.09.14", topic:"新西兰的建筑", words:["roof","wood","square","concrete","cost","Japan","garage","identical","tower","shadow"] },
+  { scene:"建筑/材料",       date:"2024.10.12", topic:"绿色织物纤维", words:["cotton","organic","fibre","","","","","","",""], _incomplete:true },
+  { scene:"历史/文化/艺术",   date:"2024.11.16", topic:"雨伞发展史", words:["power","women","wood","wax","body","lid","gloves","plastic","steel","nylon"] },
+  { scene:"环境/能源",       date:"2024.11.23", topic:"传统水管理系统", words:["sloping","tunnel","rivers","mountains","pump","evaporation","war","rain","streets","rich"] },
+  { scene:"建筑/材料",       date:"2024.12.07", topic:"天然建筑材料", words:["foundation","sand","clay","cheap","training","water","roof","herb","strength","fire"] },
+  { scene:"建筑/材料",       date:"2024.12.28", topic:"气候与建筑", words:["cities","acid","stone","bank","rainfall","glass","wood","soil","movement","guidelines"] },
+  // 2025
+  { scene:"生物/动植物",     date:"2025.04.26", topic:"城市路边树木研究", words:["Disease","Construction","Furniture","Packaging","Noise","Air","Evolution","Empathy","Violence","Babies"] },
+  { scene:"生物/动植物",     date:"2025.05.10", topic:"声景学", words:["Composer","Meaning","Frogs","Rain","Signature","Loudness","Climate","Pollution","Maps","Shrimp"] },
+  { scene:"生物/动植物",     date:"2025.05.24", topic:"蔬菜培育", words:["government","weeds","structure","water","machine","spring","history","sunlight","root","taste"] },
+  { scene:"历史/文化/艺术",   date:"2025.06.21", topic:"Cater家族对美国音乐的影响", words:["folk","shapes","guitar","advertisement","farms","humor","female","acting","award","prisons"] },
+  { scene:"历史/文化/艺术",   date:"2025.06.28", topic:"被子的历史和演变", words:["blanket","cotton","paper","weddings","prisoners","windows","recycling","sailor","rabbits","cloth"] },
+  { scene:"历史/文化/艺术",   date:"2025.07.19", topic:"袋子和钱包的历史", words:["coins","status","belt","marriage","skirts","sweet","gifts","fabrics","feminism","sports"] },
+  { scene:"环境/能源",       date:"2025.08.30", topic:"木炭", words:["oxygen","earth","waste","iron","corn","roots","water","peanuts","carbon","drugs"] },
+  { scene:"生物/动植物",     date:"2025.09.13", topic:"秘鲁燕鸥", words:["April","colour","gap","call","tourism","copper","plastic","dogs","airport","reserves"] },
+  { scene:"环境/能源",       date:"2025.09.27", topic:"热泵在英国的试点应用", words:["homes","solar","experience","boiler","air","bacteria","training","simple","supervisor","radiator"] },
+  { scene:"历史/文化/艺术",   date:"2025.10.11", topic:"怀旧心理学", words:["perfume","photograph","soldiers","bells","depression","cake","song","charity","nurse","diary"] },
+  { scene:"考古/探索",       date:"2025.10.25", topic:"纳斯卡线条", words:["desert","tools","straight","cotton","soil","medicine","flood","insects","pottery","wind"] },
+  { scene:"历史/文化/艺术",   date:"2025.11.01", topic:"毛利艺术和设计发展", words:["stone","status","paints","storage","gift","hunting","signal","face","storms","ancestors"] },
+  { scene:"生物/动植物",     date:"2025.11.22", topic:"濒危乌龟", words:["fragile","claws","mushrooms","critical","dogs","dry","relocation","elephant","training",""] },
+  { scene:"历史/文化/艺术",   date:"2025.12.27", topic:"古代语言研究", words:["existing","commerce","standard","Greek","invented","mixture","children","limitation","advanced","rare"] },
+  // 2026
+  { scene:"生物/动植物",     date:"2026.01.24", topic:"温哥华旱獭生态", words:["fur","weight","shoulders","digging","whistle","distinctive","fat","fossil","extinction","movements"] },
+  { scene:"生物/动植物",     date:"2026.01.31", topic:"Surtsey 火山岛生态演变", words:["volcano","smoke","flower","grass","bacteria","carpet","fossils","radio","storms","centuries"] },
+  { scene:"科技/工程",       date:"2026.02.07", topic:"城市探险", words:["tunnel","hacking","Internet","magazine","names","fires","group","reputation","museum","articles"] },
+  { scene:"生物/动植物",     date:"2026.02.28", topic:"赛加羚羊", words:["sheep","dust","hearing","salt","gender","endangered","wolf","fertility","distribution","stress"] },
+  { scene:"考古/探索",       date:"2026.03.07", topic:"遗址介绍", words:["bay","birds","bones","silver","status","bowls","head","tool","family","danger"] },
+  { scene:"历史/文化/艺术",   date:"2026.03.14", topic:"西瓜的历史", words:["deserts","bitter","hair","seeds","paintings","trade","container","fever","farmers","diseases"] },
+  { scene:"教育/社会",       date:"2026.03.21", topic:"数字世界对年轻人的影响", words:[], _special:"⚠ 本场为选择+匹配题，无填空答案词，跳过" },
+  { scene:"生物/动植物",     date:"2026.03.28", topic:"爱琴海壁蜥", words:["smell","birds","clay","soft","variation","rocks","teeth","heads","balance","observation"] },
+  { scene:"历史/文化/艺术",   date:"2026.04.18", topic:"颜料的历史", words:["face","honey","money","temples","toxic","nature","glass","powder","elephants","gum"] },
+  { scene:"建筑/材料",       date:"2026.04.25", topic:"纪念碑", words:["success","social","plans","influence","materials","skills","reason","emotional","environment","analysis"] },
+];
+
+// ═══════════════ CSV import/export ═══════════════
+const DB_KEY = "ielts-p4-custom-wordsets";
+
+function getActiveWordSets() {
+  try {
+    const custom = localStorage.getItem(DB_KEY);
+    if (custom) return JSON.parse(custom);
+  } catch(e) {}
+  return WORD_SETS;
+}
+
+function exportCSV() {
+  const sets = getActiveWordSets();
+  let csv = "scene,date,topic,word31,word32,word33,word34,word35,word36,word37,word38,word39,word40\n";
+  sets.forEach(s => {
+    const words = s.words.concat(Array(10).fill("")).slice(0, 10);
+    csv += [s.scene, s.date, s.topic, ...words].map(x => '"' + (x || "").replace(/"/g, '""') + '"').join(",") + "\n";
+  });
+  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ielts-p4-word-sets.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) { alert("CSV 格式错误"); return; }
+    const sets = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = parseCSVLine(lines[i]);
+      if (cols.length < 4) continue;
+      const scene = (cols[0] || "").trim();
+      const date = (cols[1] || "").trim();
+      const topic = (cols[2] || "").trim();
+      const words = cols.slice(3, 13).map(w => (w || "").trim()).filter(Boolean);
+      while (words.length < 10) words.push("");
+      if (scene && topic && words.some(w => w)) {
+        sets.push({ scene, date, topic, words: words.slice(0, 10) });
+      }
+    }
+    if (sets.length === 0) { alert("未解析到有效数据，请检查 CSV 格式"); return; }
+    localStorage.setItem(DB_KEY, JSON.stringify(sets));
+    rebuildSceneSelect();
+    document.getElementById("reset-db-btn").style.display = "";
+    alert("已导入 " + sets.length + " 套题目，刷新页面或点「换一批」生效");
+    startNew();
+  };
+  reader.readAsText(file, "UTF-8");
+  event.target.value = "";
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+  for (const ch of line) {
+    if (inQuotes) {
+      if (ch === '"') {
+        if (current.endsWith('"')) { current += '"'; }
+        inQuotes = false;
+      } else { current += ch; }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { result.push(current); current = ""; }
+      else { current += ch; }
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function resetDB() {
+  if (confirm("恢复为默认内置词库？你导入的数据将被清除。")) {
+    localStorage.removeItem(DB_KEY);
+    rebuildSceneSelect();
+    document.getElementById("reset-db-btn").style.display = "none";
+    startNew();
+  }
+}
+
+function rebuildSceneSelect() {
+  const sets = getActiveWordSets();
+  const scenes = [...new Set(sets.map(s => s.scene))];
+  const sel = document.getElementById("scene-select");
+  sel.innerHTML = `
+    <option value="all">全部场景（随机抽题）</option>
+    <option value="随机10题">🎲 随机10题模式</option>
+  `;
+  scenes.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+// ═══════════════ scene list ═══════════════
+const SCENES = [...new Set(WORD_SETS.map(s => s.scene))];
+const select = document.getElementById("scene-select");
+SCENES.forEach(s => {
+  const opt = document.createElement("option");
+  opt.value = s;
+  opt.textContent = s;
+  select.appendChild(opt);
+});
+
+// ═══════════════ normalize ═══════════════
+function norm(s) {
+  return (s || "").trim().toLowerCase().replace(/[,\s]+/g, " ").replace(/[^a-z0-9 ]/g, "");
+}
+
+// ═══════════════ state ═══════════════
+let currentSet = null;
+let currentSource = "";
+let checked = false;
+
+// ═══════════════ pick & render ═══════════════
+function pickSet() {
+  const scene = select.value;
+  let pool;
+  const activeDB = getActiveWordSets();
+  if (scene === "all") {
+    pool = activeDB.filter(w => w.words.filter(x => x).length === 10);
+  } else if (scene === "随机10题") {
+    pool = activeDB.filter(w => w.words.filter(x => x).length === 10);
+  } else {
+    pool = activeDB.filter(w => w.scene === scene && w.words.filter(x => x).length === 10);
+  }
+  if (pool.length === 0) {
+    pool = activeDB.filter(w => w.words.filter(x => x).length === 10);
+  }
+
+  if (scene === "随机10题") {
+    const src = pool[Math.floor(Math.random() * pool.length)];
+    const allWords = pool.flatMap(s => s.words.filter(w => w));
+    const shuffled = [...allWords].sort(() => Math.random() - 0.5);
+    const picked = shuffled.slice(0, 10);
+    currentSet = { scene: "随机10题", date: "随机", topic: "从 " + pool.length + " 场中随机抽选 10 词", words: picked };
+  } else {
+    const src = pool[Math.floor(Math.random() * pool.length)];
+    currentSet = { ...src, words: [...src.words] };
+  }
+  currentSource = currentSet.date + "  " + currentSet.topic;
+  checked = false;
+  render();
+}
+
+function render() {
+  const list = document.getElementById("question-list");
+  const info = document.getElementById("source-info");
+  const badge = document.getElementById("scene-badge");
+  const scoreBar = document.getElementById("score-bar");
+  const newGameWrap = document.getElementById("new-game-wrap");
+
+  info.textContent = currentSource;
+  badge.textContent = currentSet.scene;
+  scoreBar.style.display = "none";
+  newGameWrap.style.display = "none";
+
+  list.innerHTML = currentSet.words.map((word, i) => {
+    const num = i + 31;
+    const ph = word ? "" : "—";
+    return `
+      <div class="question-row" id="row-${i}">
+        <span class="question-num">${num}</span>
+        <input type="text" id="inp-${i}" placeholder="${ph}" ${!word ? "disabled" : ""}
+               onkeydown="if(event.key==='Enter'){event.preventDefault();checkAll();}">
+        ${word ? `<button class="replay-btn" onclick="replayWord(${i})" title="重听此词">&#9654;</button>` : ""}
+        <span class="feedback" id="fb-${i}"></span>
+      </div>`;
+  }).join("");
+
+  if (currentSet._special) {
+    list.insertAdjacentHTML("beforeend",
+      `<p style="margin-top:12px;font-size:13px;color:var(--ink-muted);font-style:italic">${currentSet._special}</p>`);
+  }
+}
+
+// ═══════════════ check ═══════════════
+let lastResultData = null;
+
+function checkAll() {
+  checked = true;
+  let correct = 0;
+  let total = 0;
+  let wrongList = [];
+  let wrongUserAnswers = {};
+
+  currentSet.words.forEach((word, i) => {
+    if (!word) return;
+    total++;
+    const inp = document.getElementById("inp-" + i);
+    const row = document.getElementById("row-" + i);
+    const fb  = document.getElementById("fb-" + i);
+    const userAnswer = norm(inp.value);
+    const correctAnswer = norm(word);
+
+    row.classList.remove("correct", "wrong");
+
+    if (userAnswer === correctAnswer) {
+      row.classList.add("correct");
+      fb.innerHTML = '<span class="correct-mark">&#10003; 正确</span>';
+      correct++;
+    } else {
+      row.classList.add("wrong");
+      fb.innerHTML = '&#10007; 答案：<span class="answer">' + word + '</span>';
+      wrongList.push(word);
+      wrongUserAnswers[word] = inp.value.trim();
+    }
+  });
+
+  const scoreBar = document.getElementById("score-bar");
+  const newGameWrap = document.getElementById("new-game-wrap");
+  scoreBar.style.display = "flex";
+  newGameWrap.style.display = "block";
+  document.getElementById("score-num").textContent = correct;
+  document.getElementById("score-pct").textContent = total ? Math.round(correct / total * 100) + "%" : "—";
+
+  lastResultData = { correct, total, wrongList, wrongUserAnswers };
+  if (total > 0 && currentSet.date !== "随机") {
+    saveResult();
+  }
+}
+
+// ═══════════════ start new ═══════════════
+function startNew() {
+  pickSet();
+  document.getElementById("scene-badge").scrollIntoView({ behavior: "smooth" });
+}
+
+// ═══════════════ history ═══════════════
+const LS_KEY = "ielts-p4-dictation-history";
+
+const DICT = {
+"accent":"ˈæksent|口音","acid":"ˈæsɪd|酸","acting":"ˈæktɪŋ|表演","adults":"əˈdʌlts|成年人","advanced":"ədˈvænst|先进的",
+"advertise":"ˈædvərtaɪz|做广告","advertisement":"ˌædvərˈtaɪzmənt|广告","age":"eɪdʒ|年龄","air":"eər|空气","airport":"ˈeərpɔːrt|机场",
+"analysis":"əˈnæləsɪs|分析","ancestors":"ˈænsestərz|祖先","ants":"ænts|蚂蚁","April":"ˈeɪprəl|四月","articles":"ˈɑːrtɪkəlz|文章",
+"award":"əˈwɔːrd|奖项","babies":"ˈbeɪbiz|婴儿","bacteria":"bækˈtɪəriə|细菌","balance":"ˈbæləns|平衡","balloon":"bəˈluːn|气球",
+"balls":"bɔːlz|球","bank":"bæŋk|银行","barcode":"ˈbɑːrkəʊd|条形码","bay":"beɪ|海湾","beaches":"ˈbiːtʃɪz|海滩",
+"bells":"belz|铃铛","belt":"belt|腰带","birds":"bɜːrdz|鸟","bitter":"ˈbɪtər|苦的","blanket":"ˈblæŋkɪt|毯子",
+"body":"ˈbɒdi|身体","boiler":"ˈbɔɪlər|锅炉","bones":"bəʊnz|骨头","bowls":"bəʊlz|碗","boys":"bɔɪz|男孩",
+"business":"ˈbɪznəs|商业","cake":"keɪk|蛋糕","call":"kɔːl|呼叫","candles":"ˈkændəlz|蜡烛","carbon":"ˈkɑːrbən|碳",
+"carpet":"ˈkɑːrpɪt|地毯","centuries":"ˈsentʃəriz|世纪","charity":"ˈtʃærəti|慈善","cheap":"tʃiːp|便宜的","chemicals":"ˈkemɪkəlz|化学物质",
+"chicken":"ˈtʃɪkɪn|鸡","children":"ˈtʃɪldrən|儿童","circle":"ˈsɜːrkəl|圆圈","cities":"ˈsɪtiz|城市","claws":"klɔːz|爪子",
+"clay":"kleɪ|黏土","climate":"ˈklaɪmət|气候","cloth":"klɒθ|布料","cloud":"klaʊd|云","coast":"kəʊst|海岸",
+"coconut":"ˈkəʊkənʌt|椰子","coins":"kɔɪnz|硬币","colour":"ˈkʌlər|颜色","commerce":"ˈkɒmɜːrs|商业","commercial":"kəˈmɜːrʃəl|商业的",
+"communication":"kəˌmjuːnɪˈkeɪʃən|沟通","composer":"kəmˈpəʊzər|作曲家","concrete":"ˈkɒŋkriːt|混凝土","construction":"kənˈstrʌkʃən|建设","container":"kənˈteɪnər|容器",
+"copper":"ˈkɒpər|铜","corn":"kɔːrn|玉米","cosmetics":"kɒzˈmetɪks|化妆品","cost":"kɒst|成本","cotton":"ˈkɒtən|棉花",
+"critical":"ˈkrɪtɪkəl|关键的","danger":"ˈdeɪndʒər|危险","deep":"diːp|深的","depression":"dɪˈpreʃən|抑郁","desert":"ˈdezərt|沙漠",
+"design":"dɪˈzaɪn|设计","diary":"ˈdaɪəri|日记","digestion":"daɪˈdʒestʃən|消化","digging":"ˈdɪɡɪŋ|挖掘","dioxide":"daɪˈɒksaɪd|二氧化物",
+"disease":"dɪˈziːz|疾病","distinctive":"dɪˈstɪŋktɪv|独特的","distribution":"ˌdɪstrɪˈbjuːʃən|分布","documentation":"ˌdɒkjʊmenˈteɪʃən|文档","dogs":"dɒɡz|狗",
+"dried":"draɪd|晒干的","drought":"draʊt|干旱","drugs":"drʌɡz|药物","dry":"draɪ|干燥的","dust":"dʌst|灰尘",
+"earth":"ɜːrθ|地球","elastic":"ɪˈlæstɪk|弹性的","elephant":"ˈelɪfənt|大象","emotional":"ɪˈməʊʃənəl|情感的","empathy":"ˈempəθi|共情",
+"endangered":"ɪnˈdeɪndʒərd|濒危的","engineering":"ˌendʒɪˈnɪərɪŋ|工程学","environment":"ɪnˈvaɪrənmənt|环境","equipment":"ɪˈkwɪpmənt|设备","erosion":"ɪˈrəʊʒən|侵蚀",
+"escape":"ɪˈskeɪp|逃跑","evaporation":"ɪˌvæpəˈreɪʃən|蒸发","evolution":"ˌiːvəˈluːʃən|进化","existing":"ɪɡˈzɪstɪŋ|现存的","experience":"ɪkˈspɪəriəns|经验",
+"extinction":"ɪkˈstɪŋkʃən|灭绝","fabrics":"ˈfæbrɪks|织物","face":"feɪs|脸","family":"ˈfæməli|家庭","fans":"fænz|风扇",
+"farmers":"ˈfɑːrmərz|农民","farms":"fɑːrmz|农场","fat":"fæt|脂肪","female":"ˈfiːmeɪl|女性","feminism":"ˈfemɪnɪzəm|女权主义",
+"fertility":"fərˈtɪləti|生育力","fever":"ˈfiːvər|发烧","fibre":"ˈfaɪbər|纤维","fire":"ˈfaɪər|火","flood":"flʌd|洪水",
+"flower":"ˈflaʊər|花","folk":"fəʊk|民间的","foot":"fʊt|脚","forecast":"ˈfɔːrkæst|预报","fossil":"ˈfɒsəl|化石",
+"foundation":"faʊnˈdeɪʃən|地基","fountain":"ˈfaʊntɪn|喷泉","fragile":"ˈfrædʒaɪl|脆弱的","fresh":"freʃ|新鲜的","frogs":"frɒɡz|青蛙",
+"fur":"fɜːr|皮毛","furniture":"ˈfɜːrnɪtʃər|家具","gap":"ɡæp|缺口","garage":"ɡəˈrɑːʒ|车库","gender":"ˈdʒendər|性别",
+"Germany":"ˈdʒɜːrməni|德国","gift":"ɡɪft|礼物","glass":"ɡlæs|玻璃","global":"ˈɡləʊbəl|全球的","gloves":"ɡlʌvz|手套",
+"government":"ˈɡʌvərnmənt|政府","grass":"ɡræs|草","Greek":"ɡriːk|希腊语","group":"ɡruːp|群体","guidelines":"ˈɡaɪdlaɪnz|指导方针",
+"guitar":"ɡɪˈtɑːr|吉他","gum":"ɡʌm|树胶","hacking":"ˈhækɪŋ|黑客行为","hair":"heər|头发","head":"hed|头",
+"headache":"ˈhedeɪk|头痛","hearing":"ˈhɪərɪŋ|听力","heart":"hɑːrt|心脏","herb":"hɜːrb|草药","history":"ˈhɪstəri|历史",
+"homes":"həʊmz|住宅","honey":"ˈhʌni|蜂蜜","hospitality":"ˌhɒspɪˈtæləti|好客","humor":"ˈhjuːmər|幽默","hunting":"ˈhʌntɪŋ|打猎",
+"identical":"aɪˈdentɪkəl|完全相同的","immune":"ɪˈmjuːn|免疫的","income":"ˈɪnkʌm|收入","infection":"ɪnˈfekʃən|感染","influence":"ˈɪnfluəns|影响",
+"insects":"ˈɪnsekts|昆虫","instructions":"ɪnˈstrʌkʃənz|指令","Internet":"ˈɪntərnet|互联网","interview":"ˈɪntərvjuː|面试","invented":"ɪnˈventɪd|发明的",
+"iron":"ˈaɪərn|铁","jams":"dʒæmz|堵塞","Japan":"dʒəˈpæn|日本","jokes":"dʒəʊks|笑话","journalism":"ˈdʒɜːrnəlɪzəm|新闻业",
+"kite":"kaɪt|风筝","knowledge":"ˈnɒlɪdʒ|知识","leaves":"liːvz|叶子","lid":"lɪd|盖子","light":"laɪt|光",
+"limitation":"ˌlɪmɪˈteɪʃən|限制","lines":"laɪnz|线条","loudness":"ˈlaʊdnəs|响度","machine":"məˈʃiːn|机器","machinery":"məˈʃiːnəri|机械",
+"magazine":"ˌmæɡəˈziːn|杂志","maps":"mæps|地图","marriage":"ˈmærɪdʒ|婚姻","materials":"məˈtɪəriəlz|材料","math":"mæθ|数学",
+"meaning":"ˈmiːnɪŋ|意义","medicine":"ˈmedɪsɪn|药物","meeting":"ˈmiːtɪŋ|会议","mixture":"ˈmɪkstʃər|混合物","money":"ˈmʌni|钱",
+"months":"mʌnθs|月份","mould":"məʊld|模具","mountains":"ˈmaʊntɪnz|山脉","movement":"ˈmuːvmənt|运动","museum":"mjuːˈziːəm|博物馆",
+"mushrooms":"ˈmʌʃruːmz|蘑菇","names":"neɪmz|名字","nature":"ˈneɪtʃər|自然","nervous":"ˈnɜːrvəs|紧张的","newspaper":"ˈnjuːzpeɪpər|报纸",
+"noise":"nɔɪz|噪音","nurse":"nɜːrs|护士","nylon":"ˈnaɪlɒn|尼龙","objects":"ˈɒbdʒɪkts|物体","observation":"ˌɒbzərˈveɪʃən|观察",
+"organic":"ɔːrˈɡænɪk|有机的","oxygen":"ˈɒksɪdʒən|氧气","packaging":"ˈpækɪdʒɪŋ|包装","paintings":"ˈpeɪntɪŋz|绘画","paints":"peɪnts|颜料",
+"paper":"ˈpeɪpər|纸","parks":"pɑːrks|公园","passive":"ˈpæsɪv|被动的","peanuts":"ˈpiːnʌts|花生","perfume":"pərˈfjuːm|香水",
+"person":"ˈpɜːrsən|人","photograph":"ˈfəʊtəɡræf|照片","photography":"fəˈtɒɡrəfi|摄影","pictures":"ˈpɪktʃərz|图片","plans":"plænz|计划",
+"plastic":"ˈplæstɪk|塑料","platforms":"ˈplætfɔːrmz|平台","politician":"ˌpɒlɪˈtɪʃən|政治家","pollution":"pəˈluːʃən|污染","population":"ˌpɒpjʊˈleɪʃən|人口",
+"potatoes":"pəˈteɪtəʊz|土豆","pottery":"ˈpɒtəri|陶器","powder":"ˈpaʊdər|粉末","power":"ˈpaʊər|权力","pressed":"prest|压制的",
+"prisoners":"ˈprɪzənərz|囚犯","prisons":"ˈprɪzənz|监狱","pump":"pʌmp|泵","qualification":"ˌkwɒlɪfɪˈkeɪʃən|资格","rabbits":"ˈræbɪts|兔子",
+"radiator":"ˈreɪdieɪtər|散热器","radio":"ˈreɪdiəʊ|收音机","railway":"ˈreɪlweɪ|铁路","rain":"reɪn|雨","rainfall":"ˈreɪnfɔːl|降雨量",
+"rare":"reər|稀有的","reading":"ˈriːdɪŋ|阅读","reason":"ˈriːzən|原因","recycling":"ˌriːˈsaɪklɪŋ|回收利用","reflective":"rɪˈflektɪv|反思的",
+"relationships":"rɪˈleɪʃənʃɪps|关系","relocation":"ˌriːləʊˈkeɪʃən|迁移","reputation":"ˌrepjʊˈteɪʃən|名声","reserves":"rɪˈzɜːrvz|保护区","rich":"rɪtʃ|富有的",
+"rivers":"ˈrɪvərz|河流","rocks":"rɒks|岩石","roof":"ruːf|屋顶","root":"ruːt|根","roots":"ruːts|根",
+"safety":"ˈseɪfti|安全","sailor":"ˈseɪlər|水手","salt":"sɔːlt|盐","sand":"sænd|沙子","security":"sɪˈkjʊərəti|安全",
+"seeds":"siːdz|种子","shadow":"ˈʃædəʊ|阴影","shapes":"ʃeɪps|形状","sheep":"ʃiːp|羊","shipping":"ˈʃɪpɪŋ|航运",
+"shoulders":"ˈʃəʊldərz|肩膀","shrimp":"ʃrɪmp|虾","signal":"ˈsɪɡnəl|信号","signature":"ˈsɪɡnətʃər|签名","silver":"ˈsɪlvər|银",
+"simple":"ˈsɪmpəl|简单的","skills":"skɪlz|技能","skirts":"skɜːrts|裙子","sleep":"sliːp|睡眠","sloping":"ˈsləʊpɪŋ|倾斜的",
+"small":"smɔːl|小的","smell":"smel|气味","smoke":"sməʊk|烟","social":"ˈsəʊʃəl|社会的","society":"səˈsaɪəti|社会",
+"soft":"sɒft|柔软的","soil":"sɔɪl|土壤","solar":"ˈsəʊlər|太阳的","soldiers":"ˈsəʊldʒərz|士兵","song":"sɒŋ|歌曲",
+"sports":"spɔːrts|运动","spring":"sprɪŋ|春天","square":"skweər|广场","standard":"ˈstændərd|标准","status":"ˈsteɪtəs|地位",
+"steel":"stiːl|钢铁","stone":"stəʊn|石头","storage":"ˈstɔːrɪdʒ|储存","storm":"stɔːrm|暴风雨","straight":"streɪt|直的",
+"streets":"striːts|街道","strength":"streŋθ|力量","stress":"stres|压力","strong":"strɒŋ|强壮的","structure":"ˈstrʌktʃər|结构",
+"success":"səkˈses|成功","sugar":"ˈʃʊɡər|糖","sunlight":"ˈsʌnlaɪt|阳光","supervisor":"ˈsuːpərvaɪzər|主管","support":"səˈpɔːrt|支持",
+"sweet":"swiːt|甜的","taste":"teɪst|味道","teeth":"tiːθ|牙齿","temples":"ˈtempəlz|寺庙","testing":"ˈtestɪŋ|测试",
+"textile":"ˈtekstaɪl|纺织品","tires":"ˈtaɪərz|轮胎","tool":"tuːl|工具","tools":"tuːlz|工具","tourism":"ˈtʊərɪzəm|旅游业",
+"tower":"ˈtaʊər|塔","toxic":"ˈtɒksɪk|有毒的","trade":"treɪd|贸易","traders":"ˈtreɪdərz|商人","training":"ˈtreɪnɪŋ|培训",
+"tuna":"ˈtuːnə|金枪鱼","tunnel":"ˈtʌnəl|隧道","tutorials":"tjuːˈtɔːriəlz|辅导课","university":"ˌjuːnɪˈvɜːrsəti|大学","variation":"ˌveəriˈeɪʃən|变化",
+"variety":"vəˈraɪəti|多样性","violence":"ˈvaɪələns|暴力","volcano":"vɒlˈkeɪnəʊ|火山","wall":"wɔːl|墙","war":"wɔːr|战争",
+"warming":"ˈwɔːrmɪŋ|变暖","waste":"weɪst|废物","water":"ˈwɔːtər|水","wax":"wæks|蜡","weddings":"ˈwedɪŋz|婚礼",
+"weeds":"wiːdz|杂草","weight":"weɪt|重量","whistle":"ˈwɪsəl|口哨","wildlife":"ˈwaɪldlaɪf|野生动物","wind":"wɪnd|风",
+"windows":"ˈwɪndəʊz|窗户","wolf":"wʊlf|狼","women":"ˈwɪmɪn|女性","wood":"wʊd|木材","young":"jʌŋ|年轻的",
+};
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+  catch (e) { return []; }
+}
+
+function saveResult() {
+  const data = lastResultData;
+  if (!data) return;
+  const entry = {
+    date: new Date().toISOString(),
+    scene: currentSet.scene,
+    topic: currentSet.topic,
+    correct: data.correct,
+    total: data.total,
+    wrong: data.wrongList,
+    userAnswers: data.wrongUserAnswers,
+  };
+  const history = loadHistory();
+  history.unshift(entry);
+  if (history.length > 200) history.length = 200;
+  localStorage.setItem(LS_KEY, JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const history = loadHistory();
+  const stats = document.getElementById("history-stats");
+  const list = document.getElementById("history-list");
+  const reviewBtn = document.getElementById("review-btn");
+  const toggle = document.getElementById("history-toggle");
+
+  toggle.innerHTML = "历史记录 (" + history.length + ")";
+
+  if (history.length === 0) {
+    stats.innerHTML = "暂无记录，完成一次听写批改后自动保存。";
+    list.innerHTML = "";
+    reviewBtn.style.display = "none";
+    return;
+  }
+
+  const totalAttempts = history.length;
+  const totalCorrect = history.reduce((a, e) => a + e.correct, 0);
+  const totalWords = history.reduce((a, e) => a + e.total, 0);
+  const overallPct = totalWords ? Math.round(totalCorrect / totalWords * 100) : 0;
+  const wrongPool = [...new Set(history.flatMap(e => e.wrong))];
+
+  stats.innerHTML =
+    "共 <strong>" + totalAttempts + "</strong> 次练习 &nbsp;·&nbsp; " +
+    "累计正确率 <strong>" + overallPct + "%</strong> &nbsp;·&nbsp; " +
+    "错词池 <strong>" + wrongPool.length + "</strong> 个";
+
+  reviewBtn.style.display = wrongPool.length > 0 ? "" : "none";
+  reviewBtn.textContent = "复习全部错词（" + wrongPool.length + " 个）";
+
+  list.innerHTML = history.map((e, i) => {
+    const pct = Math.round(e.correct / e.total * 100);
+    const cls = pct >= 70 ? "good" : "bad";
+    const time = new Date(e.date);
+    const timeStr = time.getMonth() + 1 + "/" + time.getDate() + " " +
+                    String(time.getHours()).padStart(2, "0") + ":" +
+                    String(time.getMinutes()).padStart(2, "0");
+    return `
+      <div class="history-entry" id="hentry-${i}" onclick="toggleEntry(${i})">
+        <div class="entry-header">
+          <span>
+            <strong>${e.topic}</strong>
+            <span style="color:var(--ink-muted)">${e.scene} · ${timeStr}</span>
+          </span>
+          <span class="entry-score ${cls}">${e.correct}/${e.total} (${pct}%)</span>
+        </div>
+        <div class="entry-detail">
+          ${e.wrong.length ? '<div style="margin-bottom:4px;color:var(--ink-muted)">错词（点击可单独听写）：</div>' : '<span style="color:var(--correct-text)">&#10003; 全部正确</span>'}
+          ${e.wrong.map(w => {
+            const ua = e.userAnswers && e.userAnswers[w] ? '（你写的：' + e.userAnswers[w] + '）' : '';
+            return '<span class="wrong-tag" onclick="event.stopPropagation();reviewSingleWord(\'' + w.replace(/'/g, "\\'") + '\')" title="点击单独听写此词">' + w + '</span>' + ua;
+          }).join("")}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function toggleEntry(i) {
+  document.querySelectorAll(".history-entry").forEach(el => el.classList.remove("open"));
+  const el = document.getElementById("hentry-" + i);
+  if (el) el.classList.toggle("open");
+}
+
+function toggleHistory() {
+  const panel = document.getElementById("history-panel");
+  panel.classList.toggle("open");
+  if (panel.classList.contains("open")) {
+    renderHistory();
+    panel.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function exportWrongWords() {
+  const history = loadHistory();
+  const wrongPool = [...new Set(history.flatMap(e => e.wrong))];
+  if (wrongPool.length === 0) { alert("没有错词可导出！"); return; }
+
+  wrongPool.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+  const freq = {};
+  history.forEach(e => e.wrong.forEach(w => { freq[w] = (freq[w] || 0) + 1; }));
+
+  const BOM = "﻿";
+  let csv = BOM + "Word,Phonetic,Chinese,Error Count\n";
+  wrongPool.forEach(w => {
+    const key = w.toLowerCase();
+    const entry = DICT[key];
+    const phonetic = entry ? "/" + entry.split("|")[0] + "/" : "";
+    const chinese = entry ? entry.split("|")[1] : "";
+    const count = freq[w] || 1;
+    csv += w + "," + phonetic + "," + chinese + "," + count + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ielts-p4-wrong-words.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearHistory() {
+  if (confirm("确定要清空全部听写记录吗？此操作不可撤销。")) {
+    localStorage.removeItem(LS_KEY);
+    renderHistory();
+    document.getElementById("history-toggle").innerHTML = "历史记录 (0)";
+  }
+}
+
+function startReviewMode() {
+  const history = loadHistory();
+  const wrongPool = [...new Set(history.flatMap(e => e.wrong))];
+  if (wrongPool.length === 0) { alert("没有错词可复习！"); return; }
+  stopDictation();
+  checked = false;
+
+  const shuffled = [...wrongPool].sort(() => Math.random() - 0.5);
+  const picked = shuffled.slice(0, 10);
+  // pad with empty strings so dictation skips them cleanly
+  while (picked.length < 10) picked.push("");
+
+  currentSet = {
+    scene: "复习模式",
+    date: "错词",
+    topic: "来自 " + wrongPool.length + " 个历史错词",
+    words: picked,
+  };
+  currentSource = "复习模式 · 历史错词 (" + wrongPool.length + " 个)";
+  document.getElementById("scene-select").value = "all";
+  render();
+  document.getElementById("source-info").scrollIntoView({ behavior: "smooth" });
+}
+
+function reviewSingleWord(word) {
+  stopDictation();
+  checked = false;
+
+  currentSet = {
+    scene: "单词复习",
+    date: "单练",
+    topic: "单词: " + word,
+    words: [word, "", "", "", "", "", "", "", "", ""],
+  };
+  currentSource = "单词复习 · " + word;
+  render();
+  const inp = document.getElementById("inp-0");
+  if (inp) inp.focus();
+
+  loadVoices();
+  setTimeout(() => {
+    const utterance = new SpeechSynthesisUtterance(word);
+    const voice = getVoice();
+    if (voice) utterance.voice = voice;
+    utterance.volume = 1.0;
+    speechSynthesis.speak(utterance);
+  }, 200);
+}
+
+// ═══════════════ speech dictation ═══════════════
+let dictationRunning = false;
+let dictationIdx = 0;
+let dictationTimer = null;
+
+let cachedVoices = [];
+let selectedVoiceName = null;
+
+function loadVoices() {
+  cachedVoices = speechSynthesis.getVoices();
+  if (cachedVoices.length === 0) {
+    const dummy = new SpeechSynthesisUtterance("");
+    dummy.volume = 0; dummy.rate = 2;
+    speechSynthesis.speak(dummy);
+    setTimeout(() => { cachedVoices = speechSynthesis.getVoices(); populateVoiceSelect(); }, 150);
+    return;
+  }
+  populateVoiceSelect();
+}
+
+function getEnglishVoices() {
+  const voices = cachedVoices.length ? cachedVoices : speechSynthesis.getVoices();
+  return voices.filter(v => v.lang.startsWith("en-"));
+}
+
+function getVoice() {
+  const english = getEnglishVoices();
+  if (english.length === 0) return null;
+
+  // if user selected a specific voice, use it
+  if (selectedVoiceName) {
+    const match = english.find(v => v.name === selectedVoiceName);
+    if (match) return match;
+  }
+
+  // prefer Samantha if available
+  const sam = english.find(v => v.name === "Samantha");
+  if (sam) return sam;
+
+  // prioritize Google neural voices (clearest on Chrome)
+  const google = english.filter(v => v.name.includes("Google"));
+  if (google.length) {
+    const femaleGoogle = google.find(v => v.name.toLowerCase().includes("female") || v.name.includes("Female"));
+    return femaleGoogle || google[0];
+  }
+
+  // next best: Microsoft or Natural voices
+  const natural = english.find(v => v.name.includes("Natural") || v.name.includes("Premium"));
+  if (natural) return natural;
+
+  // fallback: any UK or US voice
+  const gb = english.filter(v => v.lang === "en-GB");
+  if (gb.length) return gb[0];
+  const us = english.filter(v => v.lang === "en-US");
+  if (us.length) return us[0];
+
+  return english[0];
+}
+
+function populateVoiceSelect() {
+  const sel = document.getElementById("voice-select");
+  if (!sel) return;
+  const english = getEnglishVoices();
+  if (english.length === 0) { sel.innerHTML = '<option>加载中...</option>'; return; }
+
+  const currentVal = sel.value;
+  sel.innerHTML = english.map(v => {
+    const label = v.name + (v.name.includes("Google") ? " ★" : "");
+    const selAttr = (!selectedVoiceName && v.name === "Samantha") ? " selected" : "";
+    return '<option value="' + v.name + '"' + selAttr + '>' + label + '</option>';
+  }).join("");
+
+  // restore selection if available
+  if (currentVal && english.find(v => v.name === currentVal)) {
+    sel.value = currentVal;
+  }
+
+  // set default selectedVoiceName
+  if (!selectedVoiceName && english.length) {
+    const sam = english.find(v => v.name === "Samantha");
+    selectedVoiceName = sel.value || (sam ? sam.name : english[0].name);
+  }
+}
+
+function onVoiceChange() {
+  const sel = document.getElementById("voice-select");
+  if (sel) selectedVoiceName = sel.value;
+}
+
+function testVoice() {
+  const word = "foundation";
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(word);
+    const voice = getVoice();
+    if (voice) u.voice = voice;
+    u.rate = parseFloat(document.getElementById("speed-select").value);
+    u.volume = 1.0;
+    speechSynthesis.speak(u);
+  }, 80);
+}
+
+loadVoices();
+speechSynthesis.onvoiceschanged = () => { cachedVoices = speechSynthesis.getVoices(); populateVoiceSelect(); };
+
+function speakWord(idx) {
+  if (idx >= currentSet.words.length || !dictationRunning) return;
+  const word = currentSet.words[idx];
+  if (!word) { advanceDictation(); return; }
+
+  document.querySelectorAll(".question-row").forEach(r => r.classList.remove("listening"));
+  const row = document.getElementById("row-" + idx);
+  if (row) row.classList.add("listening");
+
+  const utterance = new SpeechSynthesisUtterance(word);
+  const voice = getVoice();
+  if (voice) utterance.voice = voice;
+  utterance.rate = parseFloat(document.getElementById("speed-select").value);
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+
+  utterance.onend = () => {
+    const gap = parseFloat(document.getElementById("gap-select").value) * 1000;
+    const inp = document.getElementById("inp-" + idx);
+    if (inp && !inp.disabled) {
+      setTimeout(() => { if (dictationRunning) inp.focus(); }, 150);
+    }
+    dictationTimer = setTimeout(() => advanceDictation(), gap);
+  };
+
+  utterance.onerror = (e) => {
+    console.log("Speech error on word " + idx + ": " + e.error);
+    if (e.error !== "canceled" && e.error !== "interrupted") {
+      dictationTimer = setTimeout(() => advanceDictation(), 800);
+    }
+  };
+
+  speechSynthesis.speak(utterance);
+}
+
+function advanceDictation() {
+  dictationIdx++;
+  if (dictationIdx >= currentSet.words.length) {
+    stopDictation();
+    const inp = document.getElementById("inp-0");
+    if (inp) setTimeout(() => inp.focus(), 300);
+    return;
+  }
+  speakWord(dictationIdx);
+}
+
+let dictationState = "idle";
+
+function startDictation() {
+  const btn = document.getElementById("dictation-btn");
+
+  if (dictationState === "running") {
+    dictationState = "paused";
+    dictationRunning = false;
+    if (dictationTimer) clearTimeout(dictationTimer);
+    speechSynthesis.cancel();
+    document.querySelectorAll(".question-row").forEach(r => r.classList.remove("listening"));
+    btn.textContent = "继续";
+    btn.classList.remove("running");
+    return;
+  }
+
+  if (dictationState === "paused") {
+    dictationState = "running";
+    dictationRunning = true;
+    btn.textContent = "暂停";
+    btn.classList.add("running");
+    loadVoices();
+    setTimeout(() => {
+      if (dictationState !== "running") return;
+      speakWord(dictationIdx);
+    }, 150);
+    return;
+  }
+
+  checked = false;
+  dictationIdx = 0;
+  dictationState = "running";
+  dictationRunning = true;
+
+  currentSet.words.forEach((_, i) => {
+    const inp = document.getElementById("inp-" + i);
+    if (inp) inp.value = "";
+    const row = document.getElementById("row-" + i);
+    if (row) { row.classList.remove("correct", "wrong", "listening"); }
+    const fb = document.getElementById("fb-" + i);
+    if (fb) fb.innerHTML = "";
+  });
+
+  document.getElementById("score-bar").style.display = "none";
+  document.getElementById("new-game-wrap").style.display = "none";
+
+  btn.textContent = "暂停";
+  btn.classList.add("running");
+
+  loadVoices();
+  setTimeout(() => {
+    if (dictationState !== "running") return;
+    speakWord(0);
+  }, 150);
+}
+
+function stopDictation() {
+  dictationRunning = false;
+  dictationState = "idle";
+  dictationIdx = 0;
+  if (dictationTimer) clearTimeout(dictationTimer);
+  dictationTimer = null;
+  speechSynthesis.cancel();
+
+  document.querySelectorAll(".question-row").forEach(r => r.classList.remove("listening"));
+  const btn = document.getElementById("dictation-btn");
+  btn.textContent = "开始听写";
+  btn.classList.remove("running");
+}
+
+function replayWord(idx) {
+  if (!currentSet || !currentSet.words[idx]) return;
+  const word = currentSet.words[idx];
+  const row = document.getElementById("row-" + idx);
+  if (row) {
+    row.classList.add("listening");
+    setTimeout(() => row.classList.remove("listening"), 1200);
+  }
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    const utterance = new SpeechSynthesisUtterance(word);
+    const voice = getVoice();
+    if (voice) utterance.voice = voice;
+    utterance.rate = parseFloat(document.getElementById("speed-select").value);
+    utterance.volume = 1.0;
+    speechSynthesis.speak(utterance);
+  }, 80);
+}
+
+const _origStartNew = startNew;
+startNew = function() {
+  stopDictation();
+  _origStartNew();
+};
+
+document.getElementById("start-btn").addEventListener("click", startNew);
+document.getElementById("check-btn").addEventListener("click", checkAll);
+document.getElementById("dictation-btn").addEventListener("click", startDictation);
+
+speechSynthesis.getVoices();
+renderHistory();
+// check if custom word sets exist
+if (localStorage.getItem(DB_KEY)) {
+  rebuildSceneSelect();
+  document.getElementById("reset-db-btn").style.display = "";
+}
+pickSet();
+</script>
+
+</body>
+</html>
